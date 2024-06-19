@@ -1,0 +1,17 @@
+.env
+main.py
+
+
+# Folder: bot
+bot/__pycache__
+bot/handlers/__pycache__
+bot/utils/__pycache__
+
+bot/callbacks/__pycache__
+bot/handlers/user_commands/__pycache__
+bot/utils/inline_buttons/__pycache__
+bot/utils/keyboard_buttons/__pycache__
+
+
+# Folder: database
+database/__pycache__
