@@ -15,14 +15,17 @@ router = Router()
 @router.message(CommandStart())
 async def start(message: Message) -> None:
      reply = start_buttons.start_btn_register
+     text = f'Привет, <b>{message.from_user.full_name}</b>. Рад тебя видеть в анонимном боте, чтобы продолжить работу нужно пройти регистрацию.'
+     
      register = await base.check_register(id = message.from_user.id)
      
      if register:
           reply = start_buttons.start_btn_profile
+          text = f'Привет, <b>{message.from_user.full_name}</b>.'
      
      
      await message.answer(
-          f'Привет, <b>{message.from_user.full_name}</b>. Рад тебя видеть в анонимном боте, чтобы продолжить работу нужно пройти регистрацию.',
+          text,
           reply_markup=reply,
           parse_mode=ParseMode.HTML
      )

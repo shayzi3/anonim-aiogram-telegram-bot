@@ -5,7 +5,7 @@ from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
 
 from bot.utils.inline_buttons.profile_buttons import ProfileCallbackData
-from bot.utils.states.echo_states import Register
+from bot.utils.states.profile_states import UpAvatar, UpUsername
 from database.base import base
 
 
@@ -14,13 +14,13 @@ router = Router()
 
 @router.callback_query(ProfileCallbackData.filter(F.action == 'name'))
 async def change_username(query: CallbackQuery, state: FSMContext) -> None:
-     await state.set_state(Register.username)
+     await state.set_state(UpUsername.name)
      await query.message.answer('Введи новое имя')
      
      await query.answer()
      
      
-@router.message(Register.username, F.text)
+@router.message(UpUsername.name, F.text)
 async def update_username(message: Message, state: FSMContext) -> None:
      await state.update_data(username = message.text)
      
@@ -35,16 +35,16 @@ async def update_username(message: Message, state: FSMContext) -> None:
      
      
      
-     
 @router.callback_query(ProfileCallbackData.filter(F.action == 'ava'))
 async def change_avatar(query: CallbackQuery, state: FSMContext) -> None:
-     await state.set_state(Register.avatar)
+     await state.set_state(UpAvatar.ava)
      await query.message.answer('Отправь мне новый аватар')
      
      await query.answer()
      
+     
 
-@router.message(Register.avatar, F.photo)
+@router.message(UpAvatar.ava, F.photo)
 async def update_avatar(message: Message, state: FSMContext) -> None:
      await state.update_data(avatar = message.photo[-1].file_id)
      

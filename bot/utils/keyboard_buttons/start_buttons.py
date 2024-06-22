@@ -17,7 +17,8 @@ start_btn_register = ReplyKeyboardMarkup(
 start_btn_profile = ReplyKeyboardMarkup(
      keyboard=[
           [
-               KeyboardButton(text=f'👤 Profile')
+               KeyboardButton(text='👤 Профиль'),
+               KeyboardButton(text='🌐 Найти собеседника')
           ]
      ],
      one_time_keyboard=True,

@@ -6,8 +6,8 @@ from dotenv import load_dotenv
 from loguru import logger
 
 from bot.handlers.user_commands import start, profile
-from bot.handlers.bot_commands import echo
-from bot.callbacks import profile_callback
+from bot.handlers.bot_commands import echo, echo_discuss, echo_register
+from bot.callbacks import profile_callback, send_message_callback
 
 
 load_dotenv()
@@ -24,13 +24,14 @@ async def main() -> None:
           start.router,
           profile.router,
           profile_callback.router,
+          send_message_callback.router,
+          echo_register.router,
+          echo_discuss.router,
           echo.router
      )
      
      await bot.delete_webhook(drop_pending_updates=True)
      await dp.start_polling(bot)
-     
-     
      
      
 if __name__ == '__main__':
