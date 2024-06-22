@@ -50,12 +50,12 @@ async def echo(message: Message, state: FSMContext) -> None:
                id_call = message.from_user.id,
                id_wait = id_
           )
-          await state.set_state(Discuss.msg)
-          
           await sender.send_start_message(
                id_call = message.from_user.id,
                id_wait = id_
           )
+          
+          await state.set_state(Discuss.msg)
           
           
           

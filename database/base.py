@@ -50,7 +50,6 @@ class AsyncDataUser:
                logger.info(f'New (username, avatar) for {id}. Name in bot: {data["username"]}')
                
                
-               
      async def take_username_avatar(self, id: int) -> tuple[str]:
           async with AsyncSession(self.__engine) as session:
                sttm = select().add_columns(User.username, User.avatar).where(User.id == id)
@@ -58,6 +57,13 @@ class AsyncDataUser:
                res = await session.execute(sttm)
                return res.fetchone()
           
+          
+     async def get_status(self, id: int) -> int:
+          async with AsyncSession(self.__engine) as session:
+               sttm = select().add_columns(User.status).where(User.id == id)
+               
+               res = await session.execute(sttm)
+               return res.scalar()
           
           
      async def update_username_or_avatar(self, id: int, name: str = None, avatar: str = None) -> None:
@@ -97,8 +103,24 @@ class AsyncDataUser:
                await session.commit()
                
                
-                    
-     
+     async def clear_status(self, id_call: int, id_wait: int) -> None:
+          async with AsyncSession(self.__engine) as session:
+               sttm_call = (
+                    update(User).
+                    where(User.id == id_call).
+                    values(status = 0)
+               )
+               sttm_wait = (
+                    update(User).
+                    where(User.id == id_wait).
+                    values(status = 0)
+               )
+               await session.execute(sttm_call)
+               await session.execute(sttm_wait)
+               
+               await session.commit()
+               
+               
      async def _check_database(self) -> None:
           async with AsyncSession(self.__engine) as session:
                sttm = select().add_columns(User)
