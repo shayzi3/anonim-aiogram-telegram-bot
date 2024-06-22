@@ -139,6 +139,15 @@ class AsyncDataServer:
           self.__engine = create_async_engine(f'sqlite+aiosqlite:///{self.__path}')
           
           
+     async def get_users(self) -> list[int]:
+          async with AsyncSession(self.__engine) as session:
+               sttm = select().add_columns(ServerBot.users)
+               
+               res = await session.execute(sttm)
+               res: list[int] = json.loads(res.scalar())
+          return res
+          
+          
      async def check_len_add_users(self, id: int) -> None | bool:
           async with AsyncSession(self.__engine) as session:
                sttm = select().add_columns(ServerBot.users)
